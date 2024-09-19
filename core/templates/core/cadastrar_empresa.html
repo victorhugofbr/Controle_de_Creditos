@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Empresa</title>
+</head>
+<body>
+    <h1>Cadastrar Empresa</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Exibe o formulário em formato de parágrafo para verificar -->
+    <button type="submit" class="btn btn-primary btn-block mt-3">Cadastrar</button>
+</form>
+
+</body>
+</html>

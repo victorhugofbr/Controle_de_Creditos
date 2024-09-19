@@ -1,0 +1,11 @@
+<h1>{{ empresa.nome }}</h1>
+<p>CNPJ: {{ empresa.cnpj }}</p>
+<p>Endereço: {{ empresa.endereco }}</p>
+
+<h2>Pedidos de Compensação</h2>
+<a href="{% url 'incluir_pedido' empresa.id %}">Incluir Novo Pedido</a>
+<ul>
+    {% for pedido in pedidos %}
+        <li>{{ pedido.descricao }} - {{ pedido.valor }}</li>
+    {% endfor %}
+</ul>

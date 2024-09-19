@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Créditos</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {% load bootstrap4 %}
+    {% load static %}
+    <style>
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fa;
+            padding: 5px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, .1);
+            width: 100%;
+        }
+
+        .form-container {
+            display: none; /* Initially hidden */
+        }
+
+        .form-container.active {
+            display: block; /* Show when active */
+        }
+
+        .montserrat-<uniquifier> {
+          font-family: "Montserrat", sans-serif;
+          font-optical-sizing: auto;
+          font-weight: <weight>;
+          font-style: normal;
+         }
+
+        *{
+            font-family:"Montserrat", sans-serif;
+            font-size: 12px;
+        }
+
+        .text-center mb-4{
+
+        }
+
+        h1{
+            font-size: 40px;
+            font-weight:700;
+            text-align: center;
+        }
+
+        h5{
+            padding:5px;
+            color: gray;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+
+                <div class="sidebar-sticky">
+                    <!-- Logo -->
+
+                    <div class="text-center mb-4">
+                       <p>Rosa Neto Controle de Créditos</p>
+                    </div>
+
+                    <hr class="my-4"> <!-- Linha horizontal -->
+
+                    <h5>Serviços</h5>
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="showForm">
+                                <!--- <img src="{% static 'images/icon-cadastrar-empresa.png' %}" alt="icone cadastrar" class="mr-2" style=>*\ -->
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFH0lEQVR4nO2Z608cVRTAqa8/QL8Afq/6SWhMfJQlaU01LY/lKbsL2EKlQEsfPLbDI4AK1YWmqTTlA1Db3kGrlDTRxmqaxahfFOtuNFrbGgt3VmO0FVjWkNjOHTjm3LKb7eyyOzszW43Zk5zc3DuPO785j3vnTFpaSlKSkpT8F8Q/lbEh4E5v8bszs+/pxAC99wE99Tijp4sVSWxSfKLAVRKbcAyP4Tnx7rPozriAEIvuDBaYyoBFd4bsv5iZldyH94w8yGaJVaHiWUbFOUUSIZbiOYySCeYbL8Rr17pvYCq9FSFC6k5vSQ7A5bMPKRLZyyTxl3gPvyaUJPrQWtGA/O7MbLRE0CILnz76pOkQsm/cwiTxil6ASCuRH2UfyYmAuZiZFXCnN5sOAQDrFEq6GCWKWRBhMEyhYgfOYepDR0KcvZ9RcsJsgChAYzhX+NwLOaX5C7mlgQVLeZ5BCFiHEwQn+2qyB84crtOs05M9CcKIYrhlEABB5nNLtml+6MDzRY/M5ZQ2Lz5T/nBwDN0pOEngyig4Ky3wnbtUsx6stPDrErIOJe2G3v58bnnLQm4ZIEwosMNiQp49DZ3bt0BD0dOwx7E5ruJ5nTte4NclGjOyJD6nGwQt4beUHcAWU+xa2am+2gYu79W4iucZyWYQY63RLLhOrDVJnb0MBDIRoX2fT0PPeTdvsb+jpFAXxPJv57kqlOw2vmLHWOy0WsRuLQBnlUWztlTkwIWR/SEQJhHJkFUYFYtivTGtILV2a0KJ4YvJIhjcX3y3i0kk3wAImdAC4jzkgqOuQ7yN1neUFMOuhhpNWlNZCr31VrjhHVaDnNEFgTtURsmfWkCEvn6AlSXeRuvXVDk0Wc6F15IJeH/oQLR1ZU7LrjkShJIn4gVjEKRn8kNo7e7hbbS+GSCKJALMjj+WMMjq94QmkFfPfQSdrgHeRusjiNrdGqsruapdUYgBgtt+U9OuHtdSjw0fPcxVfb4QA0SRxD2Jg9DxTq0g+CZHh4fuCvbwPoKo3a31tX6ualcUYoFQsUM3yPLvH8Py/Neg+N7VnX4RRO1uwuARrmpXFEwHwe9tDLDlW4DCYXSm33/VtdhqsK8sUQ6DljESI2p327ezlqvaFQWzg/1/k35lr+0p+WrvknL9uOEtihnpl0nkRsKfwLc9L22QvXbGvHZgXgcoM8OGQYzGCNOzRZE9ttY7EKt67XVNIE7hFRjsLganUBcBYjT9Mmk88W/125ds2bLXJiOE7HWsKDPR3aujwgGfdB2BSwNvwwfON2CobRv8RV/mLfZxHI93ba81FCMMt/Hw2QMJg3CYbx1ZstfWzH5yvYk3W/pyUwTIsfom8HePhPRERx4HwTZ8fKCuyViwU7Exzajgm1Ao+T78xn94jsOv00PQZ6+Gay2DIR1p38pBsA0f76qograT72jSht4+GOvfxedYhbhsyqcuClYAefFMEuHW9VNwzFkJb7U5YJ91CwiFeSFt3LoR9hZs5G34eN2Lm6C+cLNm7d1p5XP8/fNJJlPybJqZgtuDeOtKEvRgmtmiLtAlWxkVR5nHkS97bQHmseUlo2Q6di8gAOfy2PI4yDd27dXFBIvY7cGYMReAsKS4UyzBCiBmFNNAKPnB9MDWKpgWsXiGC5ZuK+C1VGw0LcXqLW6HCnk+sYBJ5D0miTfjP7x4E/dOWKvSvWKbWdxeK4Zghqy/80+R7A79DEXL4T/DGbI+6T9yEiluxz05JSlJSUrSkiD/ANedfvyVBlSOAAAAAElFTkSuQmCC">
+                                Nova Empresa
+                            </a>
+                        </li>
+                    </ul>
+
+                    <hr class="my-4"> <!-- Linha horizontal -->
+
+                    <h5>Sistema</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <img src="data:image/png;base64,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">
+                                Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADBElEQVR4nO2YyU8TcRTHp/tCSDzaC9z0pAc9u8SDLNEwxBjDKhSssktr2eL/IcYYY1sXrBsIspRNNtmZgkKAsEhpg8YFPFji5WtmtLWptZ2WbsbfN3nJL7Mk7/N9781rSlFERERERESeqptNp/SMTaBnINBPQ3BtCgLdJITaCQi14xBWj0J49TVEVSMQVQ1DVDkEccUAxOWvIC7vh7isD5LSXkhKuiEpsUB6pQvSy52Qatoh1byE7FIbZMWtkBW9gKyoGXL1c8gLn0Fe8BSKgidQXDRDkf8IirwmKPMeQpn7AMqce1BmmWzKbFMaFVC1szaqxgqBfsYLYBxC7RgHIHIDDEFUOegF0AtJaY8XQIcPgBbI/wB47APgPgeQkG1CQpZhgweAFVQNg2PmLWiY7zhisEGo++n+8SY7d+3o3XW3+zrmCxrmd1D3Zhv6uc/QWT+hmvmIqukPqJh8j7KJLZSMOaAZtaN4ZBPq4Q0UDL5D/sAacvtXkdW3ggs9yzjfvYRzXYvI7FhARvs8zra9RXrrHFJbZnHKPPULwAjeAIVTu8gZd+JM344boHDS6b7mAri+8DXiAKebra4K8ABg26eGwaE7NqRYdnDg5pob4PDtdaRYtnGwceV3BWaiVQFjEAC8B3jQxwD3hH+As03BADDxMcC53gPME4B2APEcFAFwkAqAtJA/xapFTjDfkGS0I9lox0nG+e8NcZJhE6pbG1ywEFEH4Bw0bHLhz0Ffkb60C9WNldgCeDrInnknv7wLVUMX9mktHARngDXKLcQl4eEge05bdPJOPlFtxv7aDl7vhB2AK399p9tBNrhzfSd3L9B7iWpzwGcjBuDLQT6uhuI8HW4Af0mEeo+OFkCoLu81eTocAMH0rns+dBaoGld5zwcdCQDXd96VBF8HQ/1C0eEGYJeLZxLBOBjqjqAjBRBsEuxmdm9pP0uKjiQAm0Sy68fWHpOICQAdJ0ERAAepACLaQhkO2GLtMv33CPznLu1AGvtgPCaf6UBqQAAiIiIiov9KPwCkHtsudKactwAAAABJRU5ErkJggg==">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <img src="data:image/png;base64,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">
+                                Ajustes do Sistema
+                            </a>
+                        </li>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1>Controle de Créditos</h1>
+                </div>
+
+                <div class="form-container" id="formContainer">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Cadastrar</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('showForm').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('formContainer').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
