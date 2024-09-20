@@ -5,7 +5,7 @@ from django.db import models
 class Empresa(models.Model):
     razao_social = models.CharField(max_length=255)
     cnpj = models.CharField(max_length=14)
-    contato_telefone = models.CharField(max_length=20)  # Novo campo para telefone
+    contato_telefone = models.CharField(max_length=15, default='(00) 0000-0000')
 
     def __str__(self):
         return self.razao_social

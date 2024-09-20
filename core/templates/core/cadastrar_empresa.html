@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Empresa</title>
-</head>
-<body>
-    <h1>Cadastrar Empresa</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Exibe o formulário em formato de parágrafo para verificar -->
-    <button type="submit" class="btn btn-primary btn-block mt-3">Cadastrar</button>
-</form>
+{% load static %}
+<!-- Main Content -->
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <!-- Exibir mensagens de sucesso ou erro -->
+    {% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
-</body>
-</html>
+    <!-- Formulário de Cadastro de Empresa -->
+    <div class="form-container" id="formContainer">
+        <h1 class="text-center">Cadastrar Empresa</h1> <!-- Título do formulário -->
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary btn-block mt-3">Cadastrar</button>
+        </form>
+    </div>
+</main>
